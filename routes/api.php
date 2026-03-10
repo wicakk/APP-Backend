@@ -9,6 +9,7 @@ use App\Http\Controllers\API\CutiController;
 use App\Http\Controllers\API\PerubahanPegawaiController;
 use App\Http\Controllers\API\LemburController;
 use App\Http\Controllers\API\PengajuanAbsensiController;
+use App\Http\Controllers\PengumumanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/riwayat-lembur', [LemburController::class, 'index']);
 
     // pengajuan absensi
-    Route::post('/ajukan-absensi', [PengajuanAbsensiController::class, 'store']);  // ✅
-    Route::get('/riwayat-absensi', [PengajuanAbsensiController::class, 'index']); // ✅
+    Route::post('/ajukan-absensi', [PengajuanAbsensiController::class, 'store']); 
+    Route::get('/riwayat-absensi', [PengajuanAbsensiController::class, 'index']); 
+
+
+    // pengumuman
+     Route::get('/pengumuman', [PengumumanController::class, 'apiIndex']);
+    Route::get('/pengumuman/{id}', [PengumumanController::class, 'apiShow']);
 });
 

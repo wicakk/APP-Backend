@@ -19,6 +19,7 @@ use App\Http\Controllers\API\CutiController;
 use App\Http\Controllers\API\PerubahanPegawaiController;
 use App\Http\Controllers\API\LemburController;
 use App\Http\Controllers\API\PengajuanAbsensiController;
+use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\API\AuthController;
 
 
@@ -239,9 +240,17 @@ Route::middleware(['auth'])->group(function () {
 
 
     // koreksi
-    Route::get('pengajuan-absensi', [PengajuanAbsensiController::class, 'adminIndex'])->name('pengajuan-absensi.index');
-    Route::put('pengajuan-absensi/{id}/setujui', [PengajuanAbsensiController::class, 'setujui'])->name('pengajuan-absensi.setujui');
-    Route::put('pengajuan-absensi/{id}/tolak', [PengajuanAbsensiController::class, 'tolak'])->name('pengajuan-absensi.tolak');
+    Route::get('pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
+    Route::get('pengumuman/create', [PengumumanController::class, 'create'])->name('pengumuman.create');
+    Route::post('pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');
+    Route::get('pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
+    Route::get('pengumuman/{id}/edit', [PengumumanController::class, 'edit'])->name('pengumuman.edit');
+    Route::put('pengumuman/{id}', [PengumumanController::class, 'update'])->name('pengumuman.update');
+    Route::delete('pengumuman/{id}', [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
+
+
+    // pengumuman
+    Route::resource('pengumuman', PengumumanController::class);
 });
 
 
