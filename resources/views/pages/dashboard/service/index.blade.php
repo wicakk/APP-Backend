@@ -3,7 +3,7 @@
 @section('content')
 <x-common.page-breadcrumb pageTitle="Content Service" />
 
-<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 py-8">
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 py-10">
 
   {{-- Alert --}}
   @if (session()->has('success'))
@@ -13,14 +13,14 @@
   @endif
 
   {{-- Header --}}
-  <div class="flex items-center justify-between mb-8 pb-5 border-b border-gray-200">
+  <div class="flex items-center justify-between mb-10">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Content Service</h1>
-      <p class="text-sm text-gray-400 mt-0.5">{{ $services->total() }} item{{ $services->total() !== 1 ? 's' : '' }} total</p>
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Management</p>
+      <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Services</h1>
     </div>
     <a href="{{ route('service.create') }}">
-      <button class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <button class="inline-flex items-center gap-2 bg-black hover:bg-gray-800 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-all duration-200 hover:shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
         </svg>
         Add Service
@@ -28,53 +28,72 @@
     </a>
   </div>
 
+  {{-- Stats Bar --}}
+  <div class="flex items-center gap-2 mb-8 pb-6 border-b border-gray-100">
+    <span class="text-sm text-gray-400">
+      Menampilkan
+      <span class="font-semibold text-gray-700">{{ $services->firstItem() }}–{{ $services->lastItem() }}</span>
+      dari
+      <span class="font-semibold text-gray-700">{{ $services->total() }}</span>
+      layanan
+    </span>
+  </div>
+
   {{-- Empty State --}}
   @if($services->isEmpty())
-    <div class="flex flex-col items-center justify-center py-24 text-gray-400">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 mb-4 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-      </svg>
-      <p class="text-sm">No services yet. Add your first service.</p>
+    <div class="flex flex-col items-center justify-center py-32 text-gray-300">
+      <div class="w-16 h-16 mb-5 rounded-2xl bg-gray-50 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+      </div>
+      <p class="text-sm font-medium text-gray-400">Belum ada layanan</p>
+      <p class="text-xs text-gray-300 mt-1">Tambahkan service pertama kamu</p>
     </div>
 
   @else
     {{-- Grid --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       @foreach ($services as $service)
-        <div class="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+        <div class="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:border-gray-200 hover:shadow-lg hover:-translate-y-0.5">
 
           {{-- Image --}}
-          <div class="overflow-hidden aspect-video bg-gray-100">
+          <div class="relative overflow-hidden bg-gray-50" style="aspect-ratio: 16/9">
             <img
               src="{{ asset('storage/public/' . $service->foto) }}"
               alt="{{ $service->nama }}"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
             />
+            {{-- Price overlay --}}
+            <div class="absolute top-3 right-3">
+              <span class="inline-flex items-center gap-1 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-lg shadow-sm">
+                Rp {{ number_format($service->price) }}
+              </span>
+            </div>
           </div>
 
           {{-- Body --}}
-          <div class="p-4 flex flex-col gap-2 flex-1">
-            <p class="text-base font-semibold text-gray-900 leading-snug">{{ $service->nama }}</p>
+          <div class="p-5 flex flex-col gap-3 flex-1">
 
-            {{-- Price Badge --}}
-            <span class="inline-flex items-center w-fit gap-1 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              Rp. {{ number_format($service->price) }}
-            </span>
+            {{-- Title --}}
+            <div>
+              <p class="text-base font-semibold text-gray-900 leading-snug">{{ $service->nama }}</p>
+            </div>
 
-            <p class="text-sm text-gray-400 leading-relaxed line-clamp-2">
+            {{-- Description --}}
+            <p class="text-sm text-gray-400 leading-relaxed line-clamp-2 flex-1">
               {{ is_array($service->description) ? implode(', ', $service->description) : $service->description }}
             </p>
+
           </div>
 
           {{-- Footer --}}
-          <div class="px-4 pb-4">
+          <div class="px-5 pb-5 pt-0">
+            <div class="h-px bg-gray-50 mb-4"></div>
             <a href="{{ route('service.edit', $service) }}">
-              <button class="w-full text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 hover:border-gray-300 py-2 rounded-lg transition-all duration-200">
-                Edit
+              <button class="w-full text-sm font-medium text-gray-500 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 py-2.5 rounded-xl transition-all duration-200">
+                Edit Service
               </button>
             </a>
           </div>
@@ -85,8 +104,8 @@
   @endif
 
   {{-- Pagination --}}
-  <div class="mt-8 flex justify-center">
-    {{ $clients->links() }}
+  <div class="mt-10 flex justify-center">
+    {{ $services->links() }}
   </div>
 
 </div>
