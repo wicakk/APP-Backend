@@ -47,11 +47,11 @@
                     </thead>
 
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-                        {{-- @foreach($presensi as $item) --}}
-                        @forelse($presensi as $item)
+                        {{-- @foreach($presensis as $item) --}}
+                        @forelse($presensis as $item)
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                             <td class="px-6 py-4 font-medium text-gray-800 dark:text-gray-100">
-                                {{-- {{ $item->pegawai->name }} --}}
+                                {{ $item->pegawai->name }}
                             </td>
 
                             <td class="px-6 py-4 text-gray-600 dark:text-gray-300">
