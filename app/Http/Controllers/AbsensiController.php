@@ -38,7 +38,7 @@ class AbsensiController extends Controller
     // }
     public function index()
     {
-        $presensi = Presensi::get();
-        return view('pages.dashboard.absensi.index', compact('presensi'));
+        $presensis = Presensi::with('pegawai')->get();
+        return view('pages.dashboard.absensi.index', compact('presensis'));
     }
 }

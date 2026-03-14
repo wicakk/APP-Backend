@@ -21,7 +21,7 @@
                     <tbody>
                         @foreach($presensis as $item)
                         <tr>
-                            <td>{{$item->name}}</td>
+                            <td>{{$item->pegawai->name ?? '-' }}</td>
                             <td>{{$item->tanggal}}</td>
                             <td>{{$item->masuk}}</td>
                             <td>{{$item->pulang}}</td>
