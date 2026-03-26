@@ -64,7 +64,7 @@
                     Belum ada jabatan
                 </p>
                 <a href="{{ route('jabatan.create') }}"
-                   class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
+                   class="bg-white text-blue-600 px-6 py-2.5 rounded-xl font-semibold shadow transition">
                     Tambah Jabatan Sekarang
                 </a>
             </div>
