@@ -55,6 +55,13 @@
         </div>
 
     </div>
+    <div class="w-full py-5">
+        <form method="GET" action="{{ route('pengajuan.index') }}" class="flex w-full md:w-auto">
+            <input type="text" name="search" value="{{ request('search') }}"
+                placeholder="Cari Pengajuan..." class="w-full md:w-64 px-3 py-2 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition">Telusuri</button>
+        </form>
+    </div>
 
     {{-- TABLE --}}
     <div class="bg-white shadow-sm rounded-xl overflow-hidden">
@@ -184,8 +191,8 @@
 
                     @empty
                     <tr>
-                        <td colspan="9" class="px-6 py-10 text-center text-gray-400">
-                            Belum ada pengajuan absensi
+                        <td colspan="12" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400 text-sm ">
+                            Belum ada Pengajuan Absensi.
                         </td>
                     </tr>
                     @endforelse
@@ -196,12 +203,16 @@
 
         </div>
 
-        {{-- PAGINATION --}}
-        @if($pengajuan->hasPages())
-        <div class="px-6 py-4 border-t">
-            {{ $pengajuan->links() }}
+        {{-- Pagination --}}
+            <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-100 dark:border-gray-600 flex flex-col md:flex-row items-e justify-between">
+                <div class="text-sm text-gray-700 dark:text-gray-300 mb-2 md:mb-0">
+                    Menampilkan {{ $pengajuan->firstItem() ?? 0 }} - {{ $pengajuan->lastItem() ?? 0 }} dari {{ $pengajuan->total() }} pegawai
+                </div>
+                <div>
+                    {{ $pengajuan->withQueryString()->links('pagination::tailwind') }}
+                </div>
+            </div>
         </div>
-        @endif
 
     </div>
 
