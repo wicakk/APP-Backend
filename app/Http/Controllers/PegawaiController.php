@@ -11,9 +11,23 @@ use Illuminate\Support\Facades\Hash;
 
 class PegawaiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pegawais = Pegawai::latest()->get();
+       $query = Pegawai::with(['jabatan', 'departemen']); // relasi
+
+    // Search
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                ->orWhere('nip', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%");
+            });
+        }
+
+        // Pagination
+        $pegawais = $query->latest()->paginate(10)->withQueryString();
+
         return view('pages.dashboard.pegawai.index', compact('pegawais'));
     }
 

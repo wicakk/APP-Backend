@@ -64,7 +64,7 @@
                     Belum ada departemen
                 </p>
                 <a href="{{ route('departemen.create') }}"
-                   class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl shadow-md transition">
+                   class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
                     Tambah Departemen Sekarang
                 </a>
             </div>
