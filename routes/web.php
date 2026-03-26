@@ -226,6 +226,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cuti',[CutiController::class, 'indexAdmin'])->name('cuti.index');
     Route::put('/cuti/setujui/{id}',[CutiController::class, 'setujui'])->name('cuti.setujui');
     Route::put('/cuti/tolak/{id}',[CutiController::class, 'tolak'])->name('cuti.tolak');
+    Route::get('/pengajuan', [CutiController::class, 'indexAdmin'])->name('pengajuan.index');
 
     // Perubahan Pegawai
     Route::get('/perubahan-pegawai',              [PerubahanPegawaiController::class, 'indexAdmin'])->name('perubahan.index');

@@ -88,9 +88,22 @@ class CutiController extends Controller
 
     // ================= DASHBOARD ADMIN (WEB) =================
     // GET /admin/cuti
-    public function indexAdmin()
+    public function indexAdmin(Request $request)
     {
-        $pengajuan      = RequestsCuti::with('pegawai')->latest()->get();
+        $query = RequestsCuti::with('pegawai')->latest();
+
+        // Jika ingin search
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->whereHas('pegawai', function($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                ->orWhere('nip', 'like', "%$search%");
+            });
+        }
+
+        $pengajuan = $query->paginate(10)->withQueryString(); // <-- ini Paginator
+
+        // hitung status menggunakan collection dari hasil paginate
         $totalPending   = $pengajuan->where('status', 'pending')->count();
         $totalDisetujui = $pengajuan->where('status', 'disetujui')->count();
         $totalDitolak   = $pengajuan->where('status', 'ditolak')->count();
